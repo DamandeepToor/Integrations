@@ -14,9 +14,9 @@ USER root
 COPY packages .
 RUN PACKAGES="$(cat packages)" && \
     cd /tmp && \
-    apt-get update && \
+    apt-get update && \ 
     apt-get install -y apt-rdepends && \
-    # Download curl and all dependencies in its dependency tree as mentioned at https://packages.debian.org/bookworm/curl 
+    # Download curl ,jq and all dependencies in its dependency tree as mentioned at https://packages.debian.org/bookworm/curl 
     apt-get download curl \
                     libbrotli1 \
                     libc6 \
@@ -40,9 +40,12 @@ RUN PACKAGES="$(cat packages)" && \
                     zlib1g \
                     libunistring2 \
                      libcurl4 && \
-    for package in $PACKAGES ; \
-        do apt-get download $(apt-rdepends $package | grep -v "^ ") ; \
-    done && \
+        apt-get download jq \
+                        libjq1 \
+                        libc6 \
+                        libonig5 \
+                        libgcc-s1 \
+                        libjq1 && \
     mkdir /dpkg && \
     mkdir -p /dpkg/var/lib/dpkg/status.d && \
     for deb in *.deb; do \
