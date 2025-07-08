@@ -55,7 +55,7 @@ RUN PACKAGES="$(cat packages)" && \
         dpkg --extract $deb /dpkg || exit 10; \
     done
 
-FROM apim-docker-dev-local.usw1.packages.broadcom.com/apim-gateway/gateway-enterprise:latest
+FROM caapim/gateway:latest
 
 USER root
 COPY --from=builder /dpkg /
